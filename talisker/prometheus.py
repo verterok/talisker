@@ -112,10 +112,10 @@ def setup_prometheus_multiproc(async_mode):
     if not prometheus_installed:
         return
 
-    if 'prometheus_multiproc_dir' not in os.environ:
+    if 'PROMETHEUS_MULTIPROC_DIR' not in os.environ:
         prefix = 'prometheus_multiproc_{}_'.format(os.getpid())
         tmp = tempfile.mkdtemp(prefix=prefix)
-        os.environ['prometheus_multiproc_dir'] = tmp
+        os.environ['PROMETHEUS_MULTIPROC_DIR'] = tmp
 
     # try enable multiprocess cleanup
     try:
@@ -144,7 +144,7 @@ def setup_prometheus_multiproc(async_mode):
         'info',
         'prometheus_client is in multiprocess mode',
         extra={
-            'multiproc_dir': os.environ['prometheus_multiproc_dir'],
+            'multiproc_dir': os.environ['PROMETHEUS_MULTIPROC_DIR'],
             'cleanup_enabled': talisker.prometheus_multiproc_cleanup,
         }
     )
@@ -157,7 +157,7 @@ def collect_metrics():
         generate_latest,
         multiprocess,
     )
-    if 'prometheus_multiproc_dir' in os.environ:
+    if 'PROMETHEUS_MULTIPROC_DIR' in os.environ:
         registry = CollectorRegistry()
         multiprocess.MultiProcessCollector(registry)
     else:
@@ -178,7 +178,7 @@ def prometheus_cleanup_worker(pid):
     """Aggregate dead worker's metrics into a single archive file."""
     from prometheus_client import multiprocess
     multiprocess.mark_process_dead(pid)  # this takes care of gauges
-    prom_dir = os.environ['prometheus_multiproc_dir']
+    prom_dir = os.environ['PROMETHEUS_MULTIPROC_DIR']
     worker_files = [
         'histogram_{}.db'.format(pid),
         'counter_{}.db'.format(pid),

@@ -158,7 +158,7 @@ def test_prometheus_cleanup(registry):  # NOQA
         return {m.name: m for m in collector.collect()}
 
     def files():
-        return list(sorted(os.listdir(os.environ['prometheus_multiproc_dir'])))
+        return list(sorted(os.listdir(os.environ['PROMETHEUS_MULTIPROC_DIR'])))
 
     counter.inc(1, **labels)
     histogram.observe(0.5, **labels)

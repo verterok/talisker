@@ -71,7 +71,7 @@ def clean_up(request, tmpdir, monkeypatch, config):
     """
 
     multiproc = tmpdir.mkdir('multiproc')
-    monkeypatch.setenv('prometheus_multiproc_dir', str(multiproc))
+    monkeypatch.setenv('PROMETHEUS_MULTIPROC_DIR', str(multiproc))
     orig_client = talisker.sentry._client
 
     yield

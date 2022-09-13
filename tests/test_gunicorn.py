@@ -195,7 +195,7 @@ def test_gunicorn_prometheus_cleanup(caplog):
         pid = str(pid)
         pid_files = set()
         archives = set()
-        for path in os.listdir(os.environ['prometheus_multiproc_dir']):
+        for path in os.listdir(os.environ['PROMETHEUS_MULTIPROC_DIR']):
             # ignore master pids
             if pid in path:
                 continue

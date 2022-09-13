@@ -184,7 +184,7 @@ def test_multiprocess_metrics(tmpdir):
 
     # ensure we isolate multiprocess metrics
     env = os.environ.copy()
-    env.pop('prometheus_multiproc_dir', None)
+    env.pop('PROMETHEUS_MULTIPROC_DIR', None)
 
     with GunicornProcess(APP, args=['-w', '2'], env=env) as p:
         inc = p.url('/_status/test/prometheus')
